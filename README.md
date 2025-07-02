@@ -1,0 +1,163 @@
+# VRChat Worlds Stats
+
+VRChatのMy Worldsページとユーザープロフィールページにすべてのワールドの統計情報を集計表示するTampermonkeyユーザースクリプトです。
+
+![Version](https://img.shields.io/badge/version-1.0-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+
+## 機能
+
+- 📊 **リアルタイム統計表示**: すべてのパブリックワールドの統計を集計表示
+- 👥 **Total Users In-World**: 全ワールドの現在のユーザー数合計
+- 📈 **Total Visits**: 全ワールドの訪問回数合計（利用可能な場合）
+- ⭐ **Total Favorites**: 全ワールドのお気に入り数合計
+- 🌍 **Worlds (Public)**: パブリックワールドの数
+- 🔄 **自動更新**: 10秒ごとに統計情報を自動更新
+- 🎯 **スマート検出**: My Worldsページとユーザープロフィールページの両方で動作
+- 🚫 **プライベートワールド除外**: パブリックワールドのみを集計対象
+
+## インストール
+
+### 前提条件
+- Google Chrome ブラウザ
+- [Tampermonkey](https://www.tampermonkey.net/)ブラウザ拡張機能
+
+### インストール手順
+
+1. **Tampermonkeyをインストール**
+   - [Chrome ウェブストア](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)からTampermonkeyをインストール
+
+2. **スクリプトをインストール**
+   - このリポジトリの[vrchat-worlds-stats.js](vrchat-worlds-stats.js)を開く
+   - スクリプト全体をコピー
+   - ブラウザのTampermonkeyアイコンをクリック
+   - 「新規スクリプトを作成...」を選択
+   - デフォルトの内容をコピーしたスクリプトで置き換える
+   - `Ctrl+S`（Macでは`Cmd+S`）で保存
+
+3. **インストールの確認**
+   - [VRChat Home](https://vrchat.com/home/content/worlds)にアクセス
+   - アカウントにログイン
+   - 「My Worlds」またはユーザープロフィールページに移動
+   - ページタイトルの下に統計ボックスが表示されることを確認
+
+## 使い方
+
+インストール後、スクリプトは対応するVRChatページで自動的に動作します：
+
+- **My Worldsページ**: `https://vrchat.com/home/content/worlds`
+- **ユーザープロフィールページ**: `https://vrchat.com/home/user/usr_*`
+
+「My Worlds」または「[ユーザー名]'s Worlds」タイトルの下に統計ボックスが表示され、以下の情報が確認できます：
+
+- 現在ワールドにいるユーザーの合計数
+- 総訪問回数（利用可能な場合）
+- 総お気に入り数
+- パブリックワールドの数
+
+### 注意事項
+
+- **パブリックワールド**の統計のみをカウントします
+- プライベートワールドはすべての計算から自動的に除外されます
+- 統計は10秒ごとに自動更新されます
+- 初回読み込み時はデータ収集中「Refreshing...」と表示されます
+- 一部のユーザープロフィールページでは訪問回数が表示されない場合があります
+
+## 技術詳細
+
+### 動作原理
+
+1. **ページ検出**: URLの変更を監視してワールドページを検出
+2. **データ収集**: ページ内のワールドカードをスキャンして統計を抽出
+3. **非同期読み込み**: すべてのワールドデータが完全に読み込まれるまで待機
+4. **スマート更新**: データが変更された場合のみ更新してパフォーマンスを最適化
+
+### ブラウザ互換性
+
+- ✅ Google Chrome（動作確認済み）
+- その他のブラウザは未検証
+
+### パフォーマンス
+
+- ページパフォーマンスへの影響は最小限
+- キャッシングを使用した効率的なDOMクエリ
+- 不要な更新を避けるスマート更新検出
+
+## カスタマイズ
+
+スクリプト上部の設定を変更することで、様々な項目をカスタマイズできます：
+
+```javascript
+const CONFIG = {
+    UPDATE_INTERVAL: 10000,     // 更新頻度（ミリ秒）
+    CHECK_INTERVAL: 5000,       // チェック間隔（ミリ秒）
+    INITIAL_DELAY: 2000,        // 初期読み込み遅延
+    // ... その他の設定
+};
+```
+
+## トラブルシューティング
+
+### 統計が表示されない
+
+1. VRChatにログインしているか確認
+2. Tampermonkeyが有効になっているか確認
+3. スクリプトがアクティブか確認（Tampermonkeyダッシュボードで緑色のインジケータ）
+4. ページを更新してみる
+
+### 数値が正しくない
+
+- 表示される統計はVRChat Homeに表示される概算値です
+- キャッシングにより若干の誤差が生じる可能性があります
+- プライベートワールドはカウントから除外されています
+
+### スクリプトが動作しない
+
+1. ブラウザのコンソールでエラーを確認（F12）
+2. URLが@matchパターンと一致しているか確認
+3. スクリプトを無効化して再度有効化してみる
+
+## 貢献
+
+貢献は歓迎します！プルリクエストをお気軽に送信してください。
+
+## ライセンス
+
+このプロジェクトはMITライセンスの下でライセンスされています。詳細は以下をご覧ください：
+
+```
+MIT License
+
+Copyright (c) 2024 mikinel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## 謝辞
+
+- VRChatコミュニティの皆様に感謝
+- [Tampermonkey](https://www.tampermonkey.net/)を使用して構築
+
+## 免責事項
+
+これは非公式ツールであり、VRChat Inc.と提携または承認されていません。ご利用は自己責任でお願いします。
+
+---
+
+**注記**: VRChat Homeで表示される各数値は概算であるため、表示される統計に誤差が生じることがあります。
