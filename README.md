@@ -1,5 +1,7 @@
 # VRChat Worlds Stats
 
+![image](https://github.com/user-attachments/assets/1f5ee2d3-e89a-413b-8ddf-a42a0113b5ad)
+
 VRChatのMy Worldsページとユーザープロフィールページにすべてのワールドの統計情報を集計表示するTampermonkeyユーザースクリプトです。
 
 ![Version](https://img.shields.io/badge/version-1.0-blue.svg)
