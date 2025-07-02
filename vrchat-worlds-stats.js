@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         VRChat Worlds Stats
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  VRChat My WorldsページとUserページに全ワールドの統計情報を表示
 // @author       mikinel
 // @match        https://vrchat.com/*
@@ -203,10 +203,19 @@
                            text.includes('Favorites');
             const imageCount = div.querySelectorAll('img').length;
             
+            // セクションヘッダーを除外（"'s Worlds"を含むもの）
+            const isSectionHeader = text.includes("'s Worlds") || text.includes("My Worlds");
+            
+            // ワールドカードは特定のクラスまたは構造を持つ
+            // Last Updatedを含むことでより正確に判定
+            const hasLastUpdated = text.includes('Last Updated');
+            
             return hasImage && 
                    hasStats && 
+                   hasLastUpdated &&
                    imageCount === 1 && 
-                   text.length < CONFIG.MAX_CARD_TEXT_LENGTH;
+                   text.length < CONFIG.MAX_CARD_TEXT_LENGTH &&
+                   !isSectionHeader;
         }
 
         extractWorldName(card) {
